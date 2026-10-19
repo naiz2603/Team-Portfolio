@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --neutral-100: #f2f2f2;
+      --neutral-200: #e0e0e0;
+      --neutral-300: #bdbdbd;
+      --neutral-400: #8a8a8a;
+      --neutral-500: #4a4b4d;
+      --neutral-600: #17181a;
+      --font-primary: "Inter", system-ui, sans-serif;
+      --font-secondary: "Space Grotesk", system-ui, sans-serif;
+      --border-style: 1px solid rgba(242, 242, 242, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--neutral-600);
+      color: var(--neutral-100);
+      font-family: var(--font-primary);
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 10rem;
+      border-bottom: 1px solid transparent;
+      transition: background-color 0.3s ease, border-bottom-color 0.3s ease, color 0.3s ease;
+    }
+    .site-header.is-scrolled {
+      background-color: var(--neutral-100);
+      border-bottom-color: var(--neutral-300);
+      color: var(--neutral-600);
+    }
+    .site-header__logo {
+      font-family: var(--font-secondary);
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .site-header__menu {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .site-header__menu a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      opacity: 0.75;
+      transition: opacity 0.15s ease;
+    }
+    .site-header__menu a:hover,
+    .site-header__menu a[aria-current] { opacity: 1; }
+    .site-header__burger {
+      display: none;
+      background: none;
+      border: 0;
+      padding: 0;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .site-header { padding: 1.25rem; }
+      .site-header__burger { display: block; }
+      .site-header__menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 1.25rem;
+        padding: 1.5rem 1.25rem;
+        background: var(--neutral-100);
+        color: var(--neutral-600);
+      }
+      .site-header.is-open .site-header__menu { display: flex; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      height: 100dvh;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+      background: radial-gradient(ellipse at 60% 45%, #2a2d33 0%, #0d0e10 70%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .hero__video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* Fallback visual until you add your own video: a slowly floating cube */
+    .hero__scene {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      perspective: 1200px;
+      z-index: 0;
+    }
+    .hero__cube {
+      --s: min(34vmin, 320px);
+      position: relative;
+      width: var(--s);
+      height: var(--s);
+      margin-left: 30vw;
+      transform-style: preserve-3d;
+      animation: cube-spin 28s linear infinite, cube-float 8s ease-in-out infinite;
+    }
+    .hero__cube span {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(242, 242, 242, 0.55);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+      box-shadow: inset 0 0 60px rgba(180, 200, 255, 0.15), 0 0 40px rgba(180, 200, 255, 0.08);
+    }
+    .hero__cube span:nth-child(1) { transform: translateZ(calc(var(--s) / 2)); }
+    .hero__cube span:nth-child(2) { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+    .hero__cube span:nth-child(3) { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); }
+    .hero__cube span:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
+    .hero__cube span:nth-child(5) { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); }
+    .hero__cube span:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
+
+    @keyframes cube-spin {
+      from { rotate: 1 1 0 0deg; }
+      to   { rotate: 1 1 0 360deg; }
+    }
+    @keyframes cube-float {
+      0%, 100% { translate: 0 -12px; }
+      50%      { translate: 0 12px; }
+    }
+    @media (max-width: 1024px) {
+      .hero__cube { margin-left: 0; margin-top: -20vh; }
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-block: 6rem;
+      padding-inline: 10rem;
+      font-family: var(--font-secondary);
+    }
+    @media (max-width: 1024px) {
+      .hero__content { padding-inline: 1.25rem; }
+    }
+
+    .hero__heading {
+      margin: 0;
+      color: var(--neutral-100);
+      font-family: var(--font-secondary);
+      font-size: 3.375rem;
+      font-weight: 300;
+      line-height: 120%;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(242, 242, 242, 0.6);
+    }
+    .hero__heading .line {
+      display: block;
+      opacity: 0;
+      filter: blur(8px);
+      animation: hero-heading-in 1.1s ease forwards;
+    }
+    .hero__heading .line + .line { animation-delay: 0.35s; }
+    @media (max-width: 1024px) {
+      .hero__heading { font-size: 3rem; }
+    }
+
+    .hero__intro {
+      width: 40%;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+    @media (max-width: 1024px) {
+      .hero__intro { width: 100%; }
+    }
+
+    .hero__intro,
+    .hero .button {
+      opacity: 0;
+      transform: translateY(1.5rem);
+      animation: hero-reveal 0.7s ease forwards;
+      animation-delay: 1.5s;
+      font-family: var(--font-primary);
+    }
+    .hero .button {
+      animation-delay: 1.62s;
+      margin-block-start: 1.5rem;
+    }
+
+    /* Pill + round arrow button */
+    .button {
+      display: inline-flex;
+      align-items: stretch;
+      gap: 2px;
+      width: fit-content;
+      color: var(--neutral-600);
+      font-weight: 600;
+    }
+    .button__title,
+    .button__arrow {
+      background-color: var(--neutral-100);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .button__title {
+      padding: 0.6rem 1.25rem;
+      border-radius: 21px;
+    }
+    .button__arrow {
+      display: grid;
+      place-items: center;
+      width: 2.6rem;
+      border-radius: 50%;
+    }
+    .button__arrow svg { transition: transform 0.2s ease; }
+    .button:hover .button__title,
+    .button:hover .button__arrow { background-color: var(--neutral-300); }
+    .button:hover .button__arrow svg { transform: translateX(3px); }
+
+    /* Ticker */
+    .hero__ticker {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      overflow: hidden;
+      border-top: var(--border-style);
+      padding-block: 1rem;
+    }
+    .hero__ticker-track {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      width: max-content;
+      animation: hero-ticker var(--ticker-duration, 60s) linear infinite;
+    }
+    .hero__ticker-track span {
+      font-family: var(--font-primary);
+      font-size: 1rem;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    @keyframes hero-ticker { to { transform: translateX(-50%); } }
+    @keyframes hero-reveal { to { opacity: 1; transform: translateY(0); } }
+    @keyframes hero-heading-in { to { opacity: 1; filter: blur(0); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero__intro, .hero .button, .hero__heading .line {
+        animation: none; opacity: 1; transform: none; filter: none;
+      }
+      .hero__cube, .hero__ticker-track { animation: none; }
+    }
+
+    /* Placeholder next section so the header scroll state is visible */
+    .next { padding: 8rem 10rem; color: var(--neutral-300); }
+    @media (max-width: 1024px) { .next { padding: 4rem 1.25rem; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-header__logo" href="#">Logo</a>
+    <button class="site-header__burger" aria-expanded="false" aria-controls="menu" aria-label="Open navigation">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <circle cx="14" cy="14" r="2" fill="currentColor"/><circle cx="26" cy="14" r="2" fill="currentColor"/>
+        <circle cx="14" cy="26" r="2" fill="currentColor"/><circle cx="26" cy="26" r="2" fill="currentColor"/>
+      </svg>
+    </button>
+    <ul id="menu" class="site-header__menu">
+      <li><a href="#" aria-current="page">01 Page</a></li>
+      <li><a href="#">02 Page</a></li>
+      <li><a href="#">03 Page</a></li>
+      <li><a href="#">04 Page</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section class="hero">
+      <!-- To use a video background, uncomment this and point it at your own file:
+      <video class="hero__video" autoplay muted loop playsinline poster="hero-poster.jpg">
+        <source src="hero.mp4" type="video/mp4">
+      </video>
+      ...and delete the .hero__scene block below. -->
+      <div class="hero__scene" aria-hidden="true">
+        <div class="hero__cube"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="hero__content">
+        <h1 class="hero__heading">
+          <span class="line">Your headline</span>
+          <span class="line">goes here</span>
+        </h1>
+        <p class="hero__intro">
+          A short introduction about you goes here. Describe who you are, what you do
+          and the kind of work you love — one or two sentences is plenty.
+        </p>
+        <a class="button" href="#work">
+          <span class="button__title">Button text</span>
+          <span class="button__arrow" aria-hidden="true">
+            <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
+              <path d="M9.65 0C9.65 2.16 11.6 3.91 14 3.91M9.65 8C9.65 5.84 11.6 4.09 14 4.09M14 4H0" stroke="currentColor"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="hero__ticker" aria-hidden="true" style="--ticker-duration: 60s">
+        <div class="hero__ticker-track" data-items="service one|×|service two|→|service three|→|service four|*|service five|×"></div>
+      </div>
+    </section>
+
+    <section class="next" id="work">
+      <p>Your next section goes here.</p>
+    </section>
+  </main>
+
+  <script>
+    // Ticker: repeat the items enough to fill twice the screen, so the -50% loop is seamless
+    const track = document.querySelector('.hero__ticker-track');
+    const items = track.dataset.items.split('|');
+    const reps = Math.max(4, Math.ceil(window.innerWidth / 400) * 2);
+    for (let i = 0; i < reps; i++) {
+      items.forEach(text => {
+        const span = document.createElement('span');
+        span.textContent = text;
+        track.appendChild(span);
+      });
+    }
+
+    // Header: solid background once you scroll past the hero's top
+    const header = document.querySelector('.site-header');
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Mobile menu
+    const burger = document.querySelector('.site-header__burger');
+    burger.addEventListener('click', () => {
+      const open = header.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', open);
+    });
+  </script>
+</body>
+</html>
